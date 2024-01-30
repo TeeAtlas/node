@@ -24,6 +24,19 @@ export const getFilm = async (req, res) => {
     } catch(err){
         res.sendStatus(500)
     }
+}
 
-   
+export const postFilm = async (req, res) => {
+   console.log('here')
+   console.log(req.body)
+    try {
+        
+        const {name, year, genre} = req.body;
+        console.log(name, year, genre)
+        const {rows} = await pool.query('INSERT INTO films (name, year, genre) VALUES ($1, $2, $3) RETURNING *', [name, year, name]);
+        console.log(rows)
+        res.status(201).json(rows[0])
+    } catch(err){
+        res.sendStatus(500)
+    }
 }
